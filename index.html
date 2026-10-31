@@ -1,1 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100b16">
+  <title>BERRY MANAGER</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --text: #fff8ff;
+      --muted: #c6b7cf;
+      --pink: #ff72bd;
+      --purple: #b57aff;
+      --border: rgba(255, 255, 255, .12);
+      --panel: rgba(31, 21, 40, .88);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(172, 73, 154, .22), transparent 38%),
+        radial-gradient(ellipse at 90% 40%, rgba(108, 74, 186, .18), transparent 40%),
+        linear-gradient(145deg, #100b16, #191020 60%, #100b16);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 0;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: var(--pink);
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, .07);
+      transition: transform .2s, background .2s, border-color .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, .28);
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .button-primary {
+      border: 0;
+      color: #271225;
+      font-weight: 800;
+      background: linear-gradient(110deg, #ff8bc8, #c28cff);
+    }
+
+    .hero {
+      padding: 75px 0 64px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: #f4b9e4;
+      background: rgba(255, 255, 255, .04);
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 20px 0 14px;
+      font-size: clamp(40px, 8vw, 76px);
+      line-height: 1.03;
+      letter-spacing: -2px;
+    }
+
+    h1 span {
+      color: transparent;
+      background: linear-gradient(100deg, #ff8bc8, #c18cff);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 26px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    section {
+      padding: 38px 0;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: clamp(27px, 5vw, 38px);
+      text-align: center;
+    }
+
+    .section-description {
+      margin: 0 auto 26px;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, .16);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .price {
+      margin: 18px 0;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .price small {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .vip-card {
+      border-color: rgba(255, 114, 189, .45);
+      background: linear-gradient(145deg, rgba(75, 39, 76, .85), var(--panel));
+    }
+
+    .promo-box {
+      display: flex;
+      max-width: 550px;
+      margin: 22px auto;
+      gap: 10px;
+    }
+
+    .promo-box input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .promo-box input:focus {
+      border-color: var(--pink);
+    }
+
+    #promo-message {
+      min-height: 22px;
+      color: #f4b9e4;
+      text-align: center;
+    }
+
+    .team-card {
+      text-align: center;
+    }
+
+    .team-icon {
+      margin-bottom: 12px;
+      font-size: 34px;
+    }
+
+    .team-card .button {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .join {
+      padding-bottom: 70px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 22px 0 30px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .modal {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(7, 4, 10, .76);
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      width: min(460px, 100%);
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: #21162b;
+      box-shadow: 0 24px 90px rgba(0, 0, 0, .45);
+    }
+
+    .modal-content h2 {
+      margin: 0 0 10px;
+    }
+
+    .modal-content p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .modal-content .button {
+      width: 100%;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      border: 0;
+      color: var(--muted);
+      background: none;
+      cursor: pointer;
+      font-size: 25px;
+    }
+
+    @media (max-width: 720px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 54px 0 38px;
+      }
+
+      header {
+        padding: 18px 0;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .promo-box {
+        flex-direction: column;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+
+      header .button {
+        min-height: 40px;
+        padding: 9px 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="container">
+    <div class="logo">BERRY <span>MANAGER</span></div>
+    <button class="button" id="login-button" type="button">Войти</button>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <span class="eyebrow">Управление сообществом</span>
+      <h1>Добро пожаловать<br>в <span>BERRY MANAGER</span></h1>
+      <p>
+        Удобная панель и команда, которая поможет разобраться
+        с возможностями проекта.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="#team">Наша команда</a>
+        <a
+          class="button"
+          href="https://vk.me/join/DzdE1YVMsbNtOaf1395f0FilCXos4PTCht4="
+          target="_blank"
+          rel="noopener noreferrer"
+        >Подать заявку</a>
+      </div>
+    </section>
+
+    <section class="container" id="vip">
+      <h2 class="section-title">Тарифы</h2>
+      <p class="section-description">Выбери подходящий вариант и введи промокод, если он у тебя есть.</p>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>Базовый</h3>
+          <p>Основные возможности проекта.</p>
+          <div class="price">Бесплатно</div>
+        </article>
+
+        <article class="card vip-card">
+          <h3>VIP</h3>
+          <p>Расширенные возможности и привилегии.</p>
+          <div class="price">
+            <span id="vip-price">299</span> ₽
+            <small id="old-price"></small>
+          </div>
+          <a
+            class="button button-primary"
+            href="https://vk.ru/nastys.officall"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Купить VIP</a>
+        </article>
+
+        <article class="card">
+          <h3>Поддержка</h3>
+          <p>Свяжись с командой, если нужна помощь.</p>
+          <div class="price">Поможем</div>
+          <a
+            class="button"
+            href="https://vk.me/join/DzdE1YVMsbNtOaf1395f0FilCXos4PTCht4="
+            target="_blank"
+            rel="noopener noreferrer"
+          >Написать нам</a>
+        </article>
+      </div>
+
+      <div class="promo-box">
+        <input id="promo-code" type="text" placeholder="Введи промокод" autocomplete="off">
+        <button class="button button-primary" id="apply-promo" type="button">Применить</button>
+      </div>
+      <div id="promo-message" aria-live="polite"></div>
+    </section>
+
+    <section class="container" id="team">
+      <h2 class="section-title">Наша команда</h2>
+      <p class="section-description">Свяжись с создателем или помощником проекта.</p>
+
+      <div class="card-grid">
+        <article class="card team-card">
+          <div class="team-icon">👑</div>
+          <h3>Создатель</h3>
+          <p>Создатель проекта BERRY MANAGER.</p>
+          <a
+            class="button"
+            href="https://vk.ru/nastys.officall"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Мой VK</a>
+        </article>
+
+        <article class="card team-card">
+          <div class="team-icon">🛠️</div>
+          <h3>Помощник создателя</h3>
+          <p>Помощник команды проекта.</p>
+          <a
+            class="button"
+            href="https://vk.ru/andrew_morosov"
+            target="_blank"
+            rel="noopener noreferrer"
+          >VK помощника</a>
+        </article>
+
+        <article class="card team-card">
+          <div class="team-icon">💬</div>
+          <h3>Подать заявку</h3>
+          <p>Напиши в чат, чтобы связаться с командой.</p>
+          <a
+            class="button"
+            href="https://vk.me/join/DzdE1YVMsbNtOaf1395f0FilCXos4PTCht4="
+            target="_blank"
+            rel="noopener noreferrer"
+          >Открыть чат</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="join container">
+      <h2 class="section-title">Присоединяйся</h2>
+      <p class="section-description">Нажми на кнопку, чтобы написать команде проекта.</p>
+      <a
+        class="button button-primary"
+        href="https://vk.me/join/DzdE1YVMsbNtOaf1395f0FilCXos4PTCht4="
+        target="_blank"
+        rel="noopener noreferrer"
+      >Подать заявку</a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 BERRY MANAGER</div>
+  </footer>
+
+  <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button class="close" id="close-modal" type="button" aria-label="Закрыть">×</button>
+      <h2 id="modal-title">Добро пожаловать!</h2>
+      <p>Чтобы связаться с командой, перейди в чат проекта.</p>
+      <a
+        class="button button-primary"
+        href="https://vk.me/join/DzdE1YVMsbNtOaf1395f0FilCXos4PTCht4="
+        target="_blank"
+        rel="noopener noreferrer"
+      >Открыть чат VK</a>
+    </div>
+  </div>
+
+  <script>
+    const originalVipPrice = 299;
+    let currentDiscount = null;
+
+    const promoCodes = {
+      BERRY46: { type: "percent", value: 30 },
+      VIPBERRY: { type: "percent", value: 20 },
+      TYRESK98: { type: "rubles", value: 50 }
+    };
+
+    const promoInput = document.getElementById("promo-code");
+    const promoMessage = document.getElementById("promo-message");
+    const vipPrice = document.getElementById("vip-price");
+    const oldPrice = document.getElementById("old-price");
+
+    document.getElementById("apply-promo").addEventListener("click", () => {
+      const code = promoInput.value.trim().toUpperCase();
+      const promo = promoCodes[code];
+
+      if (!promo) {
+        currentDiscount = null;
+        vipPrice.textContent = originalVipPrice;
+        oldPrice.textContent = "";
+        promoMessage.textContent = "Промокод не найден.";
+        return;
+      }
+
+      currentDiscount = promo;
+
+      let discountedPrice;
+      if (promo.type === "percent") {
+        discountedPrice = Math.round(originalVipPrice * (1 - promo.value / 100));
+        promoMessage.textContent = `Промокод применён: скидка ${promo.value}% на VIP.`;
+      } else {
+        discountedPrice = Math.max(0, originalVipPrice - promo.value);
+        promoMessage.textContent = `Промокод применён: скидка ${promo.value} ₽ на VIP.`;
+      }
+
+      vipPrice.textContent = discountedPrice;
+      oldPrice.textContent = ` ${originalVipPrice} ₽`;
+    });
+
+    const modal = document.getElementById("login-modal");
+
+    document.getElementById("login-button").addEventListener("click", () => {
+      modal.classList.add("open");
+    });
+
+    document.getElementById("close-modal").addEventListener("click", () => {
+      modal.classList.remove("open");
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.classList.remove("open");
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        modal.classList.remove("open");
+      }
+    });
+  </script>
+</body>
+  </html>
